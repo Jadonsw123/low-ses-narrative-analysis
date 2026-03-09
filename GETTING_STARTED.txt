@@ -1,0 +1,144 @@
+# NLP for Social Science: Low-SES Student Narrative Analysis
+
+## Project Overview
+
+This project analyzes low-SES student narratives through three theoretical frameworks:
+- **Bourdieu's Capital Theory** (economic, social, cultural, symbolic capital)
+- **Critical Pedagogy** (student agency, consciousness of barriers)
+- **Ecological Systems Theory** (micro, meso, exo, macro, chronosystem levels)
+
+Narratives are processed through GPT-4 for semantic analysis and automatically coded against all frameworks.
+
+## Quick Start
+
+### Step 1: Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### Step 2: Set OpenAI API Key
+```bash
+# Windows (PowerShell)
+$env:OPENAI_API_KEY = "your-api-key-here"
+
+# Linux/Mac
+export OPENAI_API_KEY="your-api-key-here"
+```
+
+### Step 3: Run Analysis
+```bash
+# Process narratives through GPT-4 (generates checkpoint files every 50 narratives)
+python gpt4_three_theory_analyzer.py
+
+# Generate visualizations from results
+python visualize_results.py
+```
+
+### Step 4: Review Results
+All outputs are saved to `results/` directory:
+- `.json` files: Raw analysis data
+- `.png` files: Publication-quality visualizations
+
+## Workflow Details
+
+### Input Data
+- **Low_SES_Collected_dataset.csv**: Student narratives from Nahed's repository
+- **gpt4_coding_prompt.md**: GPT-4 system prompt for consistent coding
+
+### Processing Pipeline
+
+1. **gpt4_three_theory_analyzer.py**
+   - Loads narratives from CSV
+   - Sends each narrative to GPT-4 with structured coding prompt
+   - Codes each narrative against all three theoretical frameworks
+   - Saves results in batches (checkpoints every 50 narratives)
+   - Final output: `gpt4_raw_results.json`
+
+2. **visualize_results.py**
+   - Merges checkpoint files and raw results
+   - Generates 6 publication-quality visualizations:
+     * Agency vs. Consciousness scatter plot
+     * Capital distribution heatmap
+     * Ecological systems bar chart
+     * Capital profile distributions
+     * Agency levels distribution
+     * Consciousness levels distribution
+
+### Output Structure
+
+```
+results/
+├── gpt4_checkpoint_*.json          # Intermediate results (every 50 narratives)
+├── gpt4_raw_results.json           # Complete analysis
+├── 01_agency_consciousness_scatter.png
+├── 02_bourdieu_capital_heatmap.png
+├── 03_ecological_systems_bar.png
+├── 04_capital_profile_distribution.png
+├── 05_agency_distribution.png
+├── 06_consciousness_distribution.png
+└── [other analysis outputs]
+```
+
+## Key Features
+
+### Theoretical Frameworks
+
+**Bourdieu's Capital** (4 forms, 3 categories each)
+- Economic, Social, Cultural, Symbolic
+- Coded as: Asset, Deficit, or Absent
+
+**Critical Pedagogy**
+- Student Agency: High / Moderate / Low
+- Consciousness of Barriers: High / Moderate / Low
+
+**Ecological Systems**
+- Dominant Level: Microsystem, Mesosystem, Exosystem, Macrosystem, Chronosystem
+
+### Visualization Output
+
+All graphs include:
+- Raw counts and percentages
+- Publication-ready styling (300 DPI, professional colors)
+- Academic font sizing and formatting
+- Clear legends and axis labels
+
+## Customization
+
+### Modify Coding Prompt
+Edit `gpt4_coding_prompt.md` to adjust how narratives are analyzed.
+
+### Adjust Visualization Styling
+Edit `visualize_results.py` to change colors, sizes, or chart types.
+
+## Validation & Testing
+
+Optional validation scripts:
+- `validate_setup.py`: Check environment, dependencies, and data
+- `validate_capital_coding.py`: Manual spot-check of GPT-4 results
+- `analyze_checkpoint.py`: Inspect intermediate results
+- `analyze_full_results.py`: Detailed statistical analysis
+
+Run validation:
+```bash
+python validate_setup.py
+```
+
+## For Your Paper
+
+### Tables & Figures
+Use the generated PNG visualizations directly in your paper:
+- Include in LaTeX: `\includegraphics{results/01_agency_consciousness_scatter.png}`
+- Export from Overleaf via `results/` folder
+
+### Summary Statistics
+Review the analysis output for:
+- Capital distribution percentages
+- Agency/consciousness cross-tabulation
+- Ecological systems dominance patterns
+
+## Notes
+
+1. **API Costs**: GPT-4 analysis costs ~$1-5 per 100 narratives
+2. **Processing Time**: ~387 narratives takes ~5-10 minutes (depending on API)
+3. **Checkpoint Safety**: Results auto-save every 50 narratives
+4. **Reproducibility**: Same narratives always produce same results (temperature=0.0)
