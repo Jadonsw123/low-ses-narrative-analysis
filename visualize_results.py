@@ -37,10 +37,20 @@ print(f"✓ Loaded gpt4_raw_results: {len(raw_results)} narratives (indices 52+)
 all_results = checkpoint_results + raw_results
 print(f"✓ TOTAL MERGED: {len(all_results)} narratives\n")
 
-# Verify indices
-indices = sorted([r['narrative_idx'] for r in all_results])
+# Verify indices and check for duplicates
+indices = [r['narrative_idx'] for r in all_results]
+unique_indices = set(indices)
 print(f"Index range: {min(indices)} to {max(indices)}")
-print(f"Expected: 0-{len(all_results)-1}")
+print(f"Total narratives: {len(all_results)}")
+print(f"Unique indices: {len(unique_indices)}")
+if len(unique_indices) != len(all_results):
+    print(f"⚠️  WARNING: {len(all_results) - len(unique_indices)} duplicate(s) found!")
+    # Find duplicates
+    from collections import Counter
+    idx_counts = Counter(indices)
+    duplicates = [idx for idx, count in idx_counts.items() if count > 1]
+    print(f"   Duplicate indices: {duplicates}")
+print(f"Expected range: 0-{len(unique_indices)-1}")
 print()
 
 # ===== ANALYSIS STATISTICS =====
